@@ -2,6 +2,7 @@
 
 using System;
 using System.IO;
+using System.Text;
 
 using Kent.Boogaart.KBCsv;
 
@@ -50,9 +51,9 @@ namespace IowaCodeCamp.Utility.SpeakerSubmissionFlatten
 			int recordsRead = 1;
 			int sessionsWritten = 0;
 
-			using (CsvReader csvReader = new CsvReader(inputFileName))
-			using (CsvWriter speakerWriter = new CsvWriter(speakerFileName))
-			using (CsvWriter sessionWriter = new CsvWriter(sessionFileName))
+			using (CsvReader csvReader = new CsvReader(inputFileName, Encoding.UTF8))
+			using (CsvWriter speakerWriter = new CsvWriter(speakerFileName, Encoding.UTF8))
+			using (CsvWriter sessionWriter = new CsvWriter(sessionFileName, Encoding.UTF8))
 			{
 				// Wite the header records out to the new CSV files
 				SpeakerSubmission.WriteSpeakerCsvHeader(speakerWriter);

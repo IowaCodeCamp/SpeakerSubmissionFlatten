@@ -39,6 +39,27 @@ namespace SpeakerSubmissionFlatten.UnitTest
 		}
 
 		[Test]
+		public void CleanMSWord_SampleFromFile_ConvertedQuotes()
+		{
+			const string value = "the “Gang of Four”:";
+			const string expected = "the \"Gang of Four\":";
+			CharacterCleaner cleaner = new CharacterCleaner();
+			string result = cleaner.CleanMsWordCharacters(value);
+
+			Assert.AreEqual(expected, result);
+		}
+
+		[Test]
+		public void SpeakerSubmissionCleanString_SampleFromFile_ConvertedQuotes()
+		{
+			const string value = "the “Gang of Four”:";
+			const string expected = "the \"Gang of Four\":";
+			string result = SpeakerSubmission.CleanString(value);
+
+			Assert.AreEqual(expected, result);
+		}
+
+		[Test]
 		public void UnixToDosEol_Convert_Success()
 		{
 			const string value = "abc" + "\x0a" + "def" + "\x0a";

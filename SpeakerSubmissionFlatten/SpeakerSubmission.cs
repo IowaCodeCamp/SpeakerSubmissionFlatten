@@ -31,6 +31,8 @@ namespace IowaCodeCamp.Utility.SpeakerSubmissionFlatten
 			Session3Level,
 			Session3Title,
 			Session3Description,
+			PhoneNumber,
+			Twitter,
 		}
 
 		#endregion Enumerations
@@ -60,8 +62,29 @@ namespace IowaCodeCamp.Utility.SpeakerSubmissionFlatten
 			speakerSubmission.Session3Level = GetField(dataRecord, FieldIndex.Session3Level);
 			speakerSubmission.Session3Title = GetField(dataRecord, FieldIndex.Session3Title);
 			speakerSubmission.Session3Description = GetField(dataRecord, FieldIndex.Session3Description);
+			speakerSubmission.PhoneNumber = GetField(dataRecord, FieldIndex.PhoneNumber);
+			speakerSubmission.Twitter = GetField(dataRecord, FieldIndex.Twitter);
+
+			speakerSubmission.SpeakerBio = CleanString(speakerSubmission.SpeakerBio);
+			speakerSubmission.Session1Description = CleanString(speakerSubmission.Session1Description);
+			speakerSubmission.Session2Description = CleanString(speakerSubmission.Session2Description);
+			speakerSubmission.Session3Description = CleanString(speakerSubmission.Session3Description);
 
 			return speakerSubmission;
+		}
+
+		public static string CleanString(string value)
+		{
+			if (value == null)
+				return null;
+
+			CharacterCleaner cleaner = new CharacterCleaner();
+
+			string result = cleaner.UnixToDosEol(value);
+			result = cleaner.CleanMsWordCharacters(result);
+			// result = cleaner.EscapeQuotes(result);
+
+			return result;
 		}
 
 		public static void WriteSpeakerCsvHeader(CsvWriter speakerCsvWriter)
@@ -72,6 +95,9 @@ namespace IowaCodeCamp.Utility.SpeakerSubmissionFlatten
 			{
 				fields.Add(fieldIndex.ToString());
 			}
+
+			fields.Add(FieldIndex.PhoneNumber.ToString());
+			fields.Add(FieldIndex.Twitter.ToString());
 
 			speakerCsvWriter.WriteHeaderRecord(fields.ToArray());
 		}
@@ -107,7 +133,9 @@ namespace IowaCodeCamp.Utility.SpeakerSubmissionFlatten
 				WebsiteBlogUrl,
 				HeadshotUrl,
 				SpeakerBio,
-				OtherNotes
+				OtherNotes,
+				PhoneNumber,
+				Twitter
 				);
 
 			if ((!string.IsNullOrEmpty(Session1Level)) && 
@@ -184,6 +212,8 @@ namespace IowaCodeCamp.Utility.SpeakerSubmissionFlatten
 		private string Session3Level { get; set; }
 		private string Session3Title { get; set; }
 		private string Session3Description { get; set; }
+		private string PhoneNumber { get; set; }
+		private string Twitter { get; set; }
 
 		#endregion Private Properties
 

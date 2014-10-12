@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -6,7 +7,7 @@ namespace IowaCodeCamp.Utility.SpeakerSubmissionFlatten
 	public class CharacterCleaner
 	{
 		const char LF = '\x0a';
-		const char CR = '\x0c';
+		const char CR = '\x0d';
 		const char DOUBLEQUOTE = '"';
 
 		public string CleanMsWordCharacters(string value)
@@ -32,14 +33,11 @@ namespace IowaCodeCamp.Utility.SpeakerSubmissionFlatten
 		}
 
 
-	//		abc"1"23""456"""
-
 		public string EscapeQuotes(string value)
 		{
 			bool quotesTrimmed = false;
 
-			if ((value[0] == '"') &&
-				(value[value.Length -1] == '"'))
+			if (IsQuoted(value))
 			{
 				value = value.Substring(1, value.Length - 2);
 				quotesTrimmed = true;
@@ -85,6 +83,22 @@ namespace IowaCodeCamp.Utility.SpeakerSubmissionFlatten
 			}
 
 			return buffer.ToString();
+		}
+
+		public bool IsMultiLine(string value)
+		{
+			return (value.IndexOf(Environment.NewLine) != -1);
+		}
+
+		public bool IsQuoted(string value)
+		{
+			if ((value.StartsWith("\"")) &&
+				(value.EndsWith("\"")))
+			{
+				return true;
+			}
+
+			return false;
 		}
 	}
 }
